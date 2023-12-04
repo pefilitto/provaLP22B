@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { cadastrarUsuario } from '../../redux/usuarioReducer';
 import { useDispatch } from 'react-redux';
-import { buscarUsuario } from '../../redux/mensagemReducer';
 
 export default function FormCadUsuario(props) {
     const { setExibirCadUsuario } = props;

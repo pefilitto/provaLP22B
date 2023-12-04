@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { buscarMensagens, buscarUsuario, cadastrarMensagem } from '../../redux/mensagemReducer';
+import { buscarMensagens, cadastrarMensagem } from '../../redux/mensagemReducer';
+import { buscarUsuario } from '../../redux/usuarioReducer';
 
 export default function FormCadMensagem() {
     const dispatch = useDispatch();
     const usuarios = useSelector((state) => state.usuario.usuarios);
     const mensagens = useSelector((state) => state.mensagem.mensagens);
+    const [selectedOption, setSelectedOption] = useState('');
+    const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
         dispatch(buscarUsuario());
         dispatch(buscarMensagens());
     }, [dispatch]);
-
-    const [selectedOption, setSelectedOption] = useState('');
-    const [inputValue, setInputValue] = useState('');
 
     const handleDropdownChange = (event) => {
         setSelectedOption(event.target.value);
@@ -24,16 +24,17 @@ export default function FormCadMensagem() {
         setInputValue(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if (selectedOption && inputValue) {
-            dispatch(
-                cadastrarMensagem({
-                    usuario: {
-                        id: selectedOption
-                    },
-                    mensagem: inputValue,
-                })
-            );
+            const novaMensagem = {
+                mensagem: inputValue,
+                usuario: {
+                    id: selectedOption
+                },
+            }
+            dispatch(cadastrarMensagem(novaMensagem));
+            dispatch(buscarMensagens())
             setSelectedOption('');
             setInputValue('');
         }
@@ -68,13 +69,14 @@ export default function FormCadMensagem() {
                                 <img
                                     src={mensagem.usuario.urlAvatar}
                                     alt={`Avatar de ${mensagem.usuario.nickname}`}
-                                    style={{ width: '50px', height: '50px' }}
+                                    style={{ width: '25px', height: '25px' }}
                                 />
                             </div>
                             <div>Usuário: {mensagem.usuario.nickname}</div>
+                            <div>Mensagem: {mensagem.mensagem}</div>
+                            <div>{mensagem.dataHora}</div>
                         </div>
-                        <div>Data/Hora: {mensagem.dataHora}</div>
-                        <div>Mensagem: {mensagem.mensagem}</div>
+
                     </div>
                 ))}
             </div>

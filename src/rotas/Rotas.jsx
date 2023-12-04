@@ -4,7 +4,7 @@ export default function Rotas(){
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<TelaPrincipal/>}></Route>
+                <Route path="/provaLP22B" element={<TelaPrincipal/>}></Route>
             </Routes>
         </BrowserRouter>
     )
