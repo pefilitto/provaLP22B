@@ -10,6 +10,8 @@ export default function FormCadMensagem() {
     const mensagens = useSelector((state) => state.mensagem.mensagens);
     const [selectedOption, setSelectedOption] = useState('');
     const [inputValue, setInputValue] = useState('');
+    dispatch(buscarUsuario());
+    dispatch(buscarMensagens());
 
     useEffect(() => {
         dispatch(buscarUsuario());
